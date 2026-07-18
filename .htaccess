@@ -1,0 +1,110 @@
+# ============================================================
+# KARU OVERLAND — Apache Configuration
+# Premium Overland Tours · Huaraz, Áncash, Perú
+# ============================================================
+
+# ----------------------------------------------------------
+# SECURITY: Disable Directory Listing
+# ----------------------------------------------------------
+Options -Indexes
+
+# ----------------------------------------------------------
+# UTF-8 CHARSET
+# ----------------------------------------------------------
+AddDefaultCharset UTF-8
+
+# ----------------------------------------------------------
+# GZIP COMPRESSION (mod_deflate)
+# ----------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html
+  AddOutputFilterByType DEFLATE text/css
+  AddOutputFilterByType DEFLATE text/javascript
+  AddOutputFilterByType DEFLATE application/javascript
+  AddOutputFilterByType DEFLATE application/json
+  AddOutputFilterByType DEFLATE application/xml
+  AddOutputFilterByType DEFLATE text/xml
+  AddOutputFilterByType DEFLATE image/svg+xml
+  AddOutputFilterByType DEFLATE application/xhtml+xml
+  AddOutputFilterByType DEFLATE text/plain
+  AddOutputFilterByType DEFLATE application/x-font-ttf
+  AddOutputFilterByType DEFLATE application/x-font-opentype
+  AddOutputFilterByType DEFLATE font/woff
+  AddOutputFilterByType DEFLATE font/woff2
+</IfModule>
+
+# ----------------------------------------------------------
+# BROWSER CACHING (mod_expires)
+# ----------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Images — 1 year
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/avif "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+
+  # Fonts — 1 year
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType application/x-font-ttf "access plus 1 year"
+  ExpiresByType application/x-font-opentype "access plus 1 year"
+  ExpiresByType application/font-woff "access plus 1 year"
+  ExpiresByType application/font-woff2 "access plus 1 year"
+
+  # CSS & JS — 1 month
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType text/javascript "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+
+  # HTML — 1 hour
+  ExpiresByType text/html "access plus 1 hour"
+
+  # Data — 1 hour
+  ExpiresByType application/json "access plus 1 hour"
+  ExpiresByType application/xml "access plus 1 hour"
+  ExpiresByType text/xml "access plus 1 hour"
+</IfModule>
+
+# ----------------------------------------------------------
+# DISABLE ETAGS
+# ----------------------------------------------------------
+<IfModule mod_headers.c>
+  Header unset ETag
+</IfModule>
+FileETag None
+
+# ----------------------------------------------------------
+# SECURITY HEADERS
+# ----------------------------------------------------------
+<IfModule mod_headers.c>
+  # Prevent clickjacking
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # Prevent MIME-type sniffing
+  Header always set X-Content-Type-Options "nosniff"
+
+  # Referrer policy
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # XSS Protection (legacy browsers)
+  Header always set X-XSS-Protection "1; mode=block"
+
+  # Permissions policy
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(self)"
+</IfModule>
+
+# ----------------------------------------------------------
+# REWRITE — www to non-www redirect
+# ----------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Redirect www to non-www (HTTPS)
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+</IfModule>

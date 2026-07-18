@@ -1,0 +1,7 @@
+# Karu Overland — robots.txt
+# https://karuoverland.com
+
+User-agent: *
+Allow: /
+
+Sitemap: https://karuoverland.com/sitemap.xml
