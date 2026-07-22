@@ -169,8 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   // =============================================
-  // 6. HERO VIDEO — Control de reproducción
-  // =============================================
   /**
    * Controla el video del hero:
    * - Intenta reproducir al cargar
@@ -1052,5 +1050,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 }); // Fin DOMContentLoaded
+
 
 
