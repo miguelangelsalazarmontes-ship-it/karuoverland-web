@@ -1201,8 +1201,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .sidebar__phone {
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
   font-size: 1.5rem;
+  font-weight: 700;
   color: var(--color-secondary);
   display: block;
   margin: 0.5rem 0;
@@ -2445,3 +2446,87 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+
+/* =========================================
+   UX/UI Enhancements: Destination Pills
+========================================= */
+.pills-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.pill-checkbox {
+    position: relative;
+    cursor: pointer;
+}
+
+.pill-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.pill-checkbox span {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    background: #f8fafc;
+    color: var(--color-text);
+    border: 1px solid #e2e8f0;
+    border-radius: 9999px; /* Pill shape */
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+/* Hover state */
+.pill-checkbox:hover span {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+/* Checked state */
+.pill-checkbox input[type="checkbox"]:checked + span {
+    background: var(--color-primary);
+    color: #ffffff;
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 6px -1px rgba(var(--color-primary-rgb), 0.2);
+}
+
+/* Focus state for accessibility */
+.pill-checkbox input[type="checkbox"]:focus-visible + span {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* =========================================
+   UX/UI Enhancements: Instagram CTA
+========================================= */
+.btn-instagram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    margin: 1rem 0;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    color: #ffffff !important;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 9999px;
+    box-shadow: 0 4px 15px rgba(220, 39, 67, 0.2);
+    transition: all 0.3s ease;
+}
+
+.btn-instagram:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 39, 67, 0.3);
+    color: #ffffff;
+}
+
+.btn-instagram svg {
+    fill: currentColor;
+}

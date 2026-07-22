@@ -260,21 +260,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         break;
 
-      case 'destination':
-        // Para select múltiple o simple
-        if (field.multiple) {
-          const selected = Array.from(field.selectedOptions);
-          if (selected.length === 0) {
+              case 'destination':
+          const checkedDestinations = form.querySelectorAll('input[name="destination"]:checked');
+          if (checkedDestinations.length === 0) {
             isValid = false;
             errorMessage = 'Selecciona al menos un destino.';
           }
-        } else {
-          if (!value) {
-            isValid = false;
-            errorMessage = 'Selecciona un destino.';
-          }
-        }
-        break;
+          break;
 
       case 'travelers':
         if (!value) {
@@ -941,3 +933,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initDestinationMultiSelect();
 
 }); // Fin DOMContentLoaded
+
+
+
+
