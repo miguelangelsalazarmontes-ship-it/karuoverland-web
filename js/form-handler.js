@@ -1,4 +1,4 @@
-/**
+﻿/**
  * =============================================
  * KARU OVERLAND — Manejador de Formulario
  * Validación, guardado de borrador, envío y analytics
@@ -620,17 +620,17 @@ document.addEventListener('DOMContentLoaded', () => {
           subject: 'Nuevo cliente interesado en Karu Overland \uD83D\uDE90',
           from_name: formData.name,
           replyto: formData.email,
-          Nombre: formData.name,
-          Correo: formData.email,
-          Telefono: formData.phone,
-          Pais: formData.country,
-          Destinos: formData.destination ? formData.destination.join(', ') : 'Ninguno seleccionado',
-          Fecha_Viaje: `${formData.travel_month}/${formData.travel_year}`,
-          Pasajeros: formData.travelers,
-          Mascotas: formData.pet_friendly ? 'Sí' : 'No',
-          Presupuesto: formData.budget,
-          Mensaje_Adicional: formData.comments || 'Sin comentarios',
-          Nos_encontro_por: formData.source || 'No especificado'
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          country: formData.country,
+          package: formData.destination,
+          date: `${formData.travel_month}/${formData.travel_year}`,
+          passengers: formData.travelers,
+          pets: formData.pet_friendly,
+          budget: formData.budget,
+          message: formData.comments,
+          source: formData.source
         })
       })
       .then(response => {
@@ -930,10 +930,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initDraftAutoSave();
   initFormSubmission();
   initAnalytics();
-  initDestinationMultiSelect();
+  
 
 }); // Fin DOMContentLoaded
-
-
-
 
