@@ -616,13 +616,18 @@ document.addEventListener('DOMContentLoaded', () => {
       // --- Paso 4: Recopilar datos ---
       const formData = collectFormData();
 
-      // --- Paso 5: Enviar datos con Fetch API ---
-      fetch('send_mail.php', {
+      // --- Paso 5: Enviar datos con Fetch API a Web3Forms ---
+      fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
         body: JSON.stringify({
+          access_key: '36c9bc8f-a9e6-49f0-801e-d4a73216a315',
+          subject: 'Nuevo cliente interesado en Karu Overland \uD83D\uDE90',
+          from_name: formData.name,
+          replyto: formData.email,
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
