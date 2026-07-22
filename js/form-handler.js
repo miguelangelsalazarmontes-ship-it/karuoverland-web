@@ -1,4 +1,4 @@
-﻿/**
+/**
  * =============================================
  * KARU OVERLAND — Manejador de Formulario
  * Validación, guardado de borrador, envío y analytics
@@ -358,20 +358,27 @@ document.addEventListener('DOMContentLoaded', () => {
       const formData = {};
       const elements = form.elements;
 
-      for (let i = 0; i < elements.length; i++) {
-        const el = elements[i];
-        if (!el.name || el.name === 'website' || el.type === 'submit') continue;
-
-        if (el.type === 'select-multiple') {
-          formData[el.name] = Array.from(el.selectedOptions).map(opt => opt.value);
-        } else if (el.type === 'checkbox') {
-          formData[el.name] = el.checked;
-        } else if (el.type === 'radio') {
-          if (el.checked) formData[el.name] = el.value;
-        } else {
-          formData[el.name] = el.value;
+        for (let i = 0; i < elements.length; i++) {
+          const el = elements[i];
+          if (!el.name || el.name === 'website' || el.type === 'submit') continue;
+  
+          if (el.type === 'select-multiple') {
+            formData[el.name] = Array.from(el.selectedOptions).map(opt => opt.value);
+          } else if (el.type === 'checkbox') {
+            const checkboxes = form.querySelectorAll(`input[type="checkbox"][name="${el.name}"]`);
+            if (checkboxes.length > 1) {
+              if (!formData[el.name]) {
+                formData[el.name] = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+              }
+            } else {
+              formData[el.name] = el.checked;
+            }
+          } else if (el.type === 'radio') {
+            if (el.checked) formData[el.name] = el.value;
+          } else {
+            formData[el.name] = el.value;
+          }
         }
-      }
 
       // Guardar moneda actual
       formData.__currency = currentCurrency;
@@ -446,16 +453,20 @@ document.addEventListener('DOMContentLoaded', () => {
           if (!el.name || el.name === 'website' || el.type === 'submit') continue;
           if (!(el.name in formData)) continue;
 
-          if (el.type === 'select-multiple') {
-            const values = formData[el.name];
-            if (Array.isArray(values)) {
-              Array.from(el.options).forEach(opt => {
-                opt.selected = values.includes(opt.value);
-              });
-            }
-          } else if (el.type === 'checkbox') {
-            el.checked = formData[el.name];
-          } else if (el.type === 'radio') {
+            if (el.type === 'select-multiple') {
+              const values = formData[el.name];
+              if (Array.isArray(values)) {
+                Array.from(el.options).forEach(opt => {
+                  opt.selected = values.includes(opt.value);
+                });
+              }
+            } else if (el.type === 'checkbox') {
+              if (Array.isArray(formData[el.name])) {
+                el.checked = formData[el.name].includes(el.value);
+              } else {
+                el.checked = formData[el.name] === true || formData[el.name] === 'Sí';
+              }
+            } else if (el.type === 'radio') {
             el.checked = el.value === formData[el.name];
           } else {
             el.value = formData[el.name];
@@ -615,7 +626,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-                body: JSON.stringify({
+        body: JSON.stringify({
           access_key: '5a13d1a8-ce94-4c05-8403-03455bea9ab6',
           subject: 'Nuevo cliente interesado en Karu Overland \uD83D\uDE90',
           from_name: formData.name + ' ' + (formData.lastname || ''),
@@ -698,38 +709,8 @@ document.addEventListener('DOMContentLoaded', () => {
    * Recopila todos los datos del formulario en un objeto.
    * @returns {Object} - Datos del formulario
    */
-      const collectFormData = () => {
-      const data = {};
-      const elements = form.elements;
-  
-      for (let i = 0; i < elements.length; i++) {
-        const el = elements[i];
-        if (!el.name || el.name === 'website' || el.type === 'submit') continue;
-  
-        if (el.type === 'select-multiple') {
-          data[el.name] = Array.from(el.selectedOptions).map(opt => opt.value);
-        } else if (el.type === 'checkbox') {
-          const checkboxes = form.querySelectorAll(`input[type="checkbox"][name="${el.name}"]`);
-          if (checkboxes.length > 1) {
-            if (!data[el.name]) {
-              data[el.name] = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
-            }
-          } else {
-            data[el.name] = el.checked ? 'Sí' : 'No';
-          }
-        } else if (el.type === 'radio') {
-          if (el.checked) data[el.name] = el.value;
-        } else {
-          data[el.name] = el.value;
-        }
-      }
-  
-      data.__currency = currentCurrency;
-      data.__countryCode = countryCodeSelect?.value || '+51';
-      data.__timestamp = new Date().toISOString();
-  
-      return data;
-    };
+  const collectFormData = () => {
+    const data = {};
     const elements = form.elements;
 
     for (let i = 0; i < elements.length; i++) {
@@ -739,7 +720,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (el.type === 'select-multiple') {
         data[el.name] = Array.from(el.selectedOptions).map(opt => opt.value);
       } else if (el.type === 'checkbox') {
-        data[el.name] = el.checked;
+        const checkboxes = form.querySelectorAll(`input[type="checkbox"][name="${el.name}"]`);
+        if (checkboxes.length > 1) {
+          if (!data[el.name]) {
+            data[el.name] = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+          }
+        } else {
+          data[el.name] = el.checked ? 'Sí' : 'No';
+        }
       } else if (el.type === 'radio') {
         if (el.checked) data[el.name] = el.value;
       } else {
@@ -963,6 +951,5 @@ document.addEventListener('DOMContentLoaded', () => {
   
 
 }); // Fin DOMContentLoaded
-
 
 
