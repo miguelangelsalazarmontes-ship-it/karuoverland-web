@@ -615,22 +615,22 @@ document.addEventListener('DOMContentLoaded', () => {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify({
+                body: JSON.stringify({
           access_key: '5a13d1a8-ce94-4c05-8403-03455bea9ab6',
           subject: 'Nuevo cliente interesado en Karu Overland \uD83D\uDE90',
-          from_name: formData.name,
+          from_name: formData.name + ' ' + (formData.lastname || ''),
           replyto: formData.email,
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          country: formData.country,
-          package: formData.destination,
-          date: `${formData.travel_month}/${formData.travel_year}`,
-          passengers: formData.travelers,
-          pets: formData.pet_friendly,
-          budget: formData.budget,
-          message: formData.comments,
-          source: formData.source
+          Nombre: formData.name + ' ' + (formData.lastname || ''),
+          Correo: formData.email,
+          Teléfono: (formData.__countryCode || '+51') + ' ' + formData.phone,
+          'Paquete(s)': Array.isArray(formData.destination) ? formData.destination.join(', ') : formData.destination,
+          'Fecha de viaje': `${formData.travel_month}/${formData.travel_year}`,
+          Pasajeros: formData.travelers,
+          Duración: formData.duration,
+          Mascotas: formData.pet_friendly,
+          Presupuesto: formData.budget + ' ' + formData.__currency,
+          Comentarios: formData.comments || 'Ninguno',
+          Origen: formData.source || 'No especificado'
         })
       })
       .then(response => {
@@ -698,8 +698,38 @@ document.addEventListener('DOMContentLoaded', () => {
    * Recopila todos los datos del formulario en un objeto.
    * @returns {Object} - Datos del formulario
    */
-  const collectFormData = () => {
-    const data = {};
+      const collectFormData = () => {
+      const data = {};
+      const elements = form.elements;
+  
+      for (let i = 0; i < elements.length; i++) {
+        const el = elements[i];
+        if (!el.name || el.name === 'website' || el.type === 'submit') continue;
+  
+        if (el.type === 'select-multiple') {
+          data[el.name] = Array.from(el.selectedOptions).map(opt => opt.value);
+        } else if (el.type === 'checkbox') {
+          const checkboxes = form.querySelectorAll(`input[type="checkbox"][name="${el.name}"]`);
+          if (checkboxes.length > 1) {
+            if (!data[el.name]) {
+              data[el.name] = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+            }
+          } else {
+            data[el.name] = el.checked ? 'Sí' : 'No';
+          }
+        } else if (el.type === 'radio') {
+          if (el.checked) data[el.name] = el.value;
+        } else {
+          data[el.name] = el.value;
+        }
+      }
+  
+      data.__currency = currentCurrency;
+      data.__countryCode = countryCodeSelect?.value || '+51';
+      data.__timestamp = new Date().toISOString();
+  
+      return data;
+    };
     const elements = form.elements;
 
     for (let i = 0; i < elements.length; i++) {
@@ -933,5 +963,6 @@ document.addEventListener('DOMContentLoaded', () => {
   
 
 }); // Fin DOMContentLoaded
+
 
 
