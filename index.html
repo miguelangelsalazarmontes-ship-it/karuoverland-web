@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es-PE" dir="ltr">
 <head>
     <meta charset="UTF-8">
@@ -480,21 +480,20 @@
 
                         <!-- Destino -->
                         <div class="form-group">
-                            <label class="form-group__label" for="destination">
+                            <label class="form-group__label">
                                 ¿A dónde quieres ir? <span class="required">*</span>
                             </label>
-                            <select class="form-group__select" id="destination" name="destination" multiple required>
-                                <option value="laguna-69">Laguna 69</option>
-                                <option value="pastoruri">Glaciar Pastoruri</option>
-                                <option value="chavin">Chavín de Huántar</option>
-                                <option value="paron">Laguna Parón</option>
-                                <option value="llanganuco">Lagunas Llanganuco</option>
-                                <option value="huascaran">Mirador Huascarán</option>
-                                <option value="wilcacocha">Laguna Wilcacocha</option>
-                                <option value="lago-churup">Laguna Churup</option>
-                                <option value="otro">Otro / No estoy seguro</option>
-                            </select>
-                            <div id="destination-tags" class="form-group__tags"></div>
+                            <div class="pills-group" id="destination-group">
+                                <label class="pill-checkbox"><input type="checkbox" name="destination" value="laguna-69"><span>Laguna 69</span></label>
+                                <label class="pill-checkbox"><input type="checkbox" name="destination" value="pastoruri"><span>Glaciar Pastoruri</span></label>
+                                <label class="pill-checkbox"><input type="checkbox" name="destination" value="chavin"><span>Chavín de Huántar</span></label>
+                                <label class="pill-checkbox"><input type="checkbox" name="destination" value="paron"><span>Laguna Parón</span></label>
+                                <label class="pill-checkbox"><input type="checkbox" name="destination" value="llanganuco"><span>Lagunas Llanganuco</span></label>
+                                <label class="pill-checkbox"><input type="checkbox" name="destination" value="huascaran"><span>Mirador Huascarán</span></label>
+                                <label class="pill-checkbox"><input type="checkbox" name="destination" value="wilcacocha"><span>Laguna Wilcacocha</span></label>
+                                <label class="pill-checkbox"><input type="checkbox" name="destination" value="lago-churup"><span>Laguna Churup</span></label>
+                                <label class="pill-checkbox"><input type="checkbox" name="destination" value="otro"><span>Otro / No seguro</span></label>
+                            </div>
                             <p class="form-group__error" id="destination-error">Selecciona al menos un destino</p>
                         </div>
 
