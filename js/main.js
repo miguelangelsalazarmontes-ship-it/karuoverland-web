@@ -180,15 +180,9 @@ document.addEventListener('DOMContentLoaded', () => {
   (() => {
     if (!heroVideo) return;
 
-    const isMobile = window.innerWidth < 768;
+    // Video optimizado (2.3MB) - reproducir en todos los dispositivos
 
-    // En móvil, pausar y mostrar solo poster
-    if (isMobile) {
-      heroVideo.pause();
-      heroVideo.removeAttribute('autoplay');
-      heroVideo.preload = 'none';
-      return;
-    }
+        heroVideo.muted = true;
 
     // Intentar reproducir al cargar
     const playPromise = heroVideo.play();
@@ -1058,3 +1052,5 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 }); // Fin DOMContentLoaded
+
+

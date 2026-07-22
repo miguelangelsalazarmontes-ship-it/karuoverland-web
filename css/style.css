@@ -269,6 +269,21 @@ h1, h2, h3, h4, h5, h6 {
   height: 100%;
   object-fit: cover;
   z-index: 0;
+  pointer-events: none;
+}
+
+/* Hide native video controls on iOS/Safari */
+.hero__video::-webkit-media-controls {
+  display: none !important;
+}
+.hero__video::-webkit-media-controls-panel {
+  display: none !important;
+}
+.hero__video::-webkit-media-controls-play-button {
+  display: none !important;
+}
+.hero__video::-webkit-media-controls-start-playback-button {
+  display: none !important;
 }
 
 .hero__poster {
@@ -2429,3 +2444,4 @@ h1, h2, h3, h4, h5, h6 {
     height: 300px;
   }
 }
+
